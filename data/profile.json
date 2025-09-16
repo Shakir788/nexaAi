@@ -1,0 +1,12 @@
+{
+  "name": "Karyle",
+  "age": 20,
+  "location": "Dasmari\u00f1as, Philippines",
+  "language": [
+    "English",
+    "Tagalog"
+  ],
+  "preferences": {
+    "tone": "friendly"
+  }
+}
