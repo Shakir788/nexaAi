@@ -108,23 +108,20 @@ if not api_key:
 
 # ---------- Initialize OpenRouter client ----------
 # Updated: compatible with OpenAI SDK usage, no proxies argument
-# ---------- Initialize OpenRouter client (Updated) ----------
 from openai import OpenAI
+import os
+
+# Remove any proxy environment variables
+os.environ.pop("HTTP_PROXY", None)
+os.environ.pop("HTTPS_PROXY", None)
 
 try:
-    
-    import os
-    os.environ.pop("HTTP_PROXY", None)
-    os.environ.pop("HTTPS_PROXY", None)
-
-    # Initialize client
-    client = OpenAI(
-        api_key=api_key, 
-        base_url="https://openrouter.ai/api/v1"
-    )
-except Exception as e:
-    st.error(f"Error initializing OpenRouter client: {e}")
+    client = OpenAI(api_key=os.getenv("OPENROUTER_API_KEY"), base_url="https://openrouter.ai/api/v1")
+except TypeError as e:
+    st.error(f"OpenRouter client initialization failed: {e}")
     st.stop()
+
+
 
 
 # ---------- Header ----------
