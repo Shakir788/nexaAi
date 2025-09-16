@@ -106,17 +106,31 @@ if not api_key:
     st.error("⚠️ OPENROUTER_API_KEY missing in secrets or .env. Add OPENROUTER_API_KEY.")
     st.stop()
 
-# initialize OpenRouter client
+# ---------- Initialize OpenRouter client ----------
+# Updated: compatible with OpenAI SDK usage, no proxies argument
+# ---------- Initialize OpenRouter client (Updated) ----------
+from openai import OpenAI
+
 try:
-    client = OpenAI(api_key=api_key, base_url="https://openrouter.ai/api/v1")
+    
+    import os
+    os.environ.pop("HTTP_PROXY", None)
+    os.environ.pop("HTTPS_PROXY", None)
+
+    # Initialize client
+    client = OpenAI(
+        api_key=api_key, 
+        base_url="https://openrouter.ai/api/v1"
+    )
 except Exception as e:
     st.error(f"Error initializing OpenRouter client: {e}")
     st.stop()
 
+
 # ---------- Header ----------
 st.markdown('<div class="header"><div class="logo">Nexa — Your Study Buddy</div></div>', unsafe_allow_html=True)
 
-# ---------- Session State (profile Karyle) ----------
+# ---------- Session State ----------
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
         {
